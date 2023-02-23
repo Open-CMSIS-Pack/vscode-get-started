@@ -11,6 +11,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
+          which vcpkg
+          type vcpkg
           vcpkg activate
           csolution list packs -m -s GetStarted.csolution.yml > packs.txt
           test ! -s packs.txt || cpackget add -f packs.txt

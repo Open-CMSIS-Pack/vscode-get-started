@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/schemas/projmgr/1.4.0/tools/projmgr/schemas/csolution.schema.json
+
+solution:
+
+  # it's recommended to list the packs that are used by the solution,
+  # otherwise all installed packs are used to discover components
+  packs:
+    - pack: ARM::CMSIS
+
+  target-types:
+    - type: AVH                               # runs on Arm Virtual Hardware
+      device: ARMCM3
+                                              # add more hardware targets (don't forget to add the required packs)
+
+  build-types:                                # defines toolchain options for 'debug' and 'release'
+    - type: Debug
+      optimize: none
+      debug: on
+
+    - type: Release
+      optimize: balanced
+      debug: off
+
+  projects:                               # list related projects
+    - project: ./GetStarted.cproject.yml
+
+  output-dirs:
+    cprjdir: ./build/$Project$/$Compiler$/$BuildType$+$TargetType$
+    intdir: ./build/$Project$/$Compiler$/$BuildType$+$TargetType$/intdir
+    outdir: ./build/$Project$/$Compiler$/$BuildType$+$TargetType$/outdir

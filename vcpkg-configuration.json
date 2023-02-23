@@ -24,6 +24,7 @@
   "requires": {
     "community:cmake": "* 3.24.2",
     "open-cmsis-pack:tools/open-cmsis-pack/ctools": "* 1.4.0",
-    "community:ninja": "* 1.10.2"
+    "community:ninja": "* 1.10.2",
+    "microsoft:compilers/arm-none-eabi-gcc": "*"
   }
 }

@@ -25,10 +25,18 @@ The project is generated using the [CMSIS-Toolbox](https://github.com/Open-CMSIS
 
 ## Generated Project
 
+1. Use then `csolution` and `cpackget` commands to install missing packs.
+
+   ```bash
+   ./ $ csolution list maps -s GetStarted.csolution.yml > packs.txt
+   ./ $ cpackget add -f packs.txt
+   ```
+
 1. Use the `csolution` command to create `.cprj` project file.
 
    ```bash
-   $ csolution convert -s GetStarted.csolution.yml
+   ./ $ csolution convert -s GetStarted.csolution.yml
+
    ./build/GetStarted/GCC/Debug+AVH/GetStarted.Debug+AVH.cprj - info csolution: file generated successfully
    ./build/GetStarted/GCC/Release+AVH/GetStarted.Release+AVH.cprj - info csolution: file generated successfully
    ./GetStarted.cbuild-idx.yml - info csolution: file generated successfully
@@ -36,10 +44,11 @@ The project is generated using the [CMSIS-Toolbox](https://github.com/Open-CMSIS
    ./build/GetStarted/GCC/Release+AVH/GetStarted.Release+AVH.cbuild.yml - info csolution: file generated successfully
    ```
 
-2. Use the `cbuild` command to an executable file, here fore the `Debug` build.
+1. Use the `cbuild` command to an executable file, here fore the `Debug` build.
 
    ```bash
    ./ $ cbuild build/GetStarted/GCC/Debug+AVH/GetStarted.Debug+AVH.cprj
+
    info cbuild: Build Invocation 1.0.0 (C) 2022 ARM
       :    // output of the build steps
    info cbuild: build finished successfully!

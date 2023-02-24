@@ -1,0 +1,11 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cmsis-csolution.build",
+			"project": "${command:cmsis-csolution.getCprjPath}",
+			"problemMatcher": [],
+			"label": "cmsis-csolution.build: Build"
+		}
+	]
+}

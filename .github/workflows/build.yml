@@ -11,11 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/cache
+
       - run: |
-          find / -name vcpkg-init.sh
-      - run: |
+          . <(curl https://aka.ms/vcpkg-init.sh -L)
           vcpkg activate
-          csolution list packs -m -s GetStarted.csolution.yml > packs.txt
-          test ! -s packs.txt || cpackget add -f packs.txt
-          csolution convert -s GetStarted.csolution.yml -c GetStarted.Debug+AVH
-          cbuild -v build/GetStarted/GCC/Debug+AVH/GetStarted.Debug+AVH.cprj
+          cbuild get_started.csolution.yml --packs --configuration .debug+vht
+

@@ -8,23 +8,24 @@ solution:
     - pack: ARM::CMSIS
 
   target-types:
-    - type: AVH                               # runs on Arm Virtual Hardware
+    - type: vht                               # runs on Arm Virtual Hardware
       device: ARMCM3
                                               # add more hardware targets (don't forget to add the required packs)
 
   build-types:                                # defines toolchain options for 'debug' and 'release'
-    - type: Debug
+    - type: debug
       optimize: none
       debug: on
 
-    - type: Release
+    - type: release
       optimize: balanced
       debug: off
 
   projects:                               # list related projects
-    - project: ./GetStarted.cproject.yml
+    - project: ./hello/hello.cproject.yml
 
-  output-dirs:
-    cprjdir: ./build/$Project$/$Compiler$/$BuildType$+$TargetType$
-    intdir: ./build/$Project$/$Compiler$/$BuildType$+$TargetType$/intdir
-    outdir: ./build/$Project$/$Compiler$/$BuildType$+$TargetType$/outdir
+#  Separate outout directories
+#  output-dirs:
+#    cprjdir: ./build/$Project$/$Compiler$/$BuildType$+$TargetType$
+#    intdir: ./build/$Project$/$Compiler$/$BuildType$+$TargetType$/intdir
+#    outdir: ./build/$Project$/$Compiler$/$BuildType$+$TargetType$/outdir

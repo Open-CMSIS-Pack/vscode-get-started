@@ -5,7 +5,8 @@ project:
   groups:
     - group: Documentation
       files:
-        - file: ./README.md
+        - file: ../README.md
+
     - group: Source
       files:
         - file: ./main.c

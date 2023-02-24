@@ -52,8 +52,11 @@ Mkfile.old
 dkms.conf
 
 .vscode
-build
-*.cbuild-idx.yml
-.clangd
-RTE/_**
-RTE/**/*base@*
+out
+tmp
+**/*.cbuild-idx.yml
+**/.clangd
+**/RTE/_**
+**/RTE/**/*base@*
+**/*.cbuild.yml
+**/*.cprj

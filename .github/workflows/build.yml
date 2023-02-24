@@ -10,9 +10,22 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Cache vcpkg
+        uses: actions/cache@v3
+        with:
+          key: vcpkg
+          path: /home/runner/.vcpkg
+
+      - name: Cache packs
+        uses: actions/cache@v3
+        with:
+          key: packs
+          path: /home/runner/.cache/arm/packs
+
       - run: |
           . <(curl https://aka.ms/vcpkg-init.sh -L)
           vcpkg activate
-          cbuild get_started.csolution.yml --packs --configuration .debug+vht
-
+          cbuild get_started.csolution.yml --packs --update-rte --configuration .debug+vht

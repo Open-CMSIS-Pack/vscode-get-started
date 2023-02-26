@@ -18,7 +18,7 @@ from the 'View' menu's 'Command Palette...' (ctrl+shift+p) typing: `z-ce update 
 find the application elf file.
 
 Note: Any terminal that is openened after vcpkg got activated for the folder, will have the above tools set in the path. This allows you to run tools
-from the [CMSIS-Toolbox]( like cbuild, cpackget, csolution, etc. manually 
+from the [CMSIS-Toolbox](https://github.com/Open-CMSIS-Pack/devtools/blob/main/tools/README.md) like cbuild, cpackget, csolution, etc. manually. 
    
 ## Additional Tools
 - [Keil MDK 5.38a](https://www2.keil.com/mdk5/) or later

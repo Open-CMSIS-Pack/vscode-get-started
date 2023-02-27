@@ -53,6 +53,7 @@ dkms.conf
 
 out
 tmp
+**/RTE/_**
 **/*.cbuild-idx.yml
 **/.clangd
 **/*.cbuild.yml

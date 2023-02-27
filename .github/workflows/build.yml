@@ -25,7 +25,16 @@ jobs:
           key: packs
           path: /home/runner/.cache/arm/packs
 
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: cpp
+          queries: security-and-quality
+
       - run: |
           . <(curl https://aka.ms/vcpkg-init.sh -L)
           vcpkg activate
           cbuild get_started.csolution.yml --packs --update-rte --configuration .debug+vht
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2

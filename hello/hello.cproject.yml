@@ -1,6 +1,16 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/schemas/projmgr/1.4.0/tools/projmgr/schemas/cproject.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/schemas/projmgr/1.5.0/tools/projmgr/schemas/cproject.schema.json
 
 project:
+
+  # it's recommended to list the packs that are used by the solution,
+  # otherwise all installed packs are used to discover components
+  packs:
+    - pack: ARM::CMSIS
+
+  components:
+    - component: CMSIS:CORE                             # short form, vendor selected from available packs
+    - component: Device:Startup&C Startup
+    - component: ARM::CMSIS:RTOS2:Keil RTX5&Source      # long form, vendor explicitly stated
 
   groups:
     - group: Documentation
@@ -11,7 +21,6 @@ project:
       files:
         - file: ./main.c
 
-  components:
-    - component: CMSIS:CORE                             # short form, vendor selected from available packs
-    - component: Device:Startup&C Startup
-    - component: ARM::CMSIS:RTOS2:Keil RTX5&Source      # long form, vendor explicitly stated
+  output:
+    - type: elf
+      file: $Project$.$BuildType$+$TargetType$.axf

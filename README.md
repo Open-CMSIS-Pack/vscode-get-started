@@ -7,36 +7,53 @@ This repository builds an ELF file that prints "GetStarted World" and a counter 
 3. From the 'View' menu open 'Source Control'. Select 'Clone Repository' and copy the url: https://github.com/Open-CMSIS-Pack/vscode-get-started into the input dialog
 4. Specify the destination folder to clone to and select 'Open' when asked 'Would you like to open the cloned directory?'
 5. Open the 'Explorer' view (ctrl-shift-e) and select the file 'vcpkg-configuration.json'. This file instructs [Microsoft vcpkg](https://github.com/microsoft/vcpkg-tool#vcpkg-artifacts) to install the prerequisite artifacts required for building the solution.
-  - ctools 1.5.0  (CMSIS-Toolbox)
-  - cmake 3.24.2
+  - ctools 1.5.0  [CMSIS-Toolbox](https://github.com/Open-CMSIS-Pack/devtools/blob/main/tools/projmgr/docs/Manual/Overview.md)
+  - cmake 3.25.2
   - ninja 1.10.2
   - arm-none-eabi-gcc 10.3.1-2021.10 (GNU Arm Embedded Toolchain 10.3.1)
 6. In case vcpkg shows an error in the VSCode status bar, you can see furth information in the "OUTPUT" for 'vcpkg'.
-In case of 'Error: Unable to resolve dpendency ... in <registry>' you may need to update the registry by running 'vcpkg: Run vcpkg command'
+In case of 'Error: Unable to resolve dependency ... in <registry>' you may need to update the registry by running 'vcpkg: Run vcpkg command'
 from the 'View' menu's 'Command Palette...' (ctrl+shift+p) typing: `z-ce update <registry>`. 
 7. Open the 'CMSIS' view from the side bar and press the 'Build' button. The last line of the ninja build output will tell you where you can
-find the application elf file.
+find the application elf file. Alternatively you can select 'Build' or 'Rebuild' from the context menu of the `*.cprj` file of the solution context
+(e.g. hello.debug+vht.cprj)
 
-Note: Any terminal that is openened after vcpkg got activated for the folder, will have the above tools set in the path. This allows you to run tools
-from the [CMSIS-Toolbox](https://github.com/Open-CMSIS-Pack/devtools/blob/main/tools/README.md) like cbuild, cpackget, csolution, etc. manually. 
+Note: Any terminal that is openened within VSCode after vcpkg got activated for the folder, will have all the above tools added to the path. 
+This allows you to run tools from the [CMSIS-Toolbox](https://github.com/Open-CMSIS-Pack/devtools/blob/main/tools/projmgr/docs/Manual/Overview.md) like:
+- [`cpackget`](https://github.com/Open-CMSIS-Pack/cpackget#usage) for installing and uninstalling CMSIS-Packs
+- [`csolution`]() for updating, validating and converting from the CMSIS Project Management [YML input format](https://github.com/Open-CMSIS-Pack/devtools/blob/main/tools/projmgr/docs/Manual/YML-Input-Format.md#yaml-input-format)
+  to the CMSIS Build [XML `cprj` format](https://open-cmsis-pack.github.io/devtools/buildmgr/latest/element_cprj.html) used by `cbuildgen`.
+- [`cbuildgen`](https://open-cmsis-pack.github.io/devtools/buildmgr/latest/cbuildgen.html#cbuildgen_invocation) 
+- [`cbuild`](https://github.com/Open-CMSIS-Pack/cbuild#usage) for an orchestrated build of one or more `configurations` of a csolution.
    
 ## Additional Tools
+
 - [Keil MDK 5.38a](https://www2.keil.com/mdk5/) or later
   - VHT_MPS2_Cortex-M3: Arm Virtual Hardware for Cortex-M3 (v11.19.23 - Windows only - requires MDK-Professional license)
-  - Arm Compiler 6.19 (part of MDK, Eval and Community Edition are sufficient for building the solution)
-    - set environment variable AC6_TOOLCHAIN_6_19_0 to point to the bin directory of the installed toolchain to register the Arm Compiler 6.
+    - set the environment variable PATH to point to the 'VHT' directory of the MDK installation (`c:\Keil_v5\ARM\VHT`).
+  - Arm Compiler 6.19 (included in Keil MDK: Community Edition is sufficient for building the solution)
+    - set the environment variable AC6_TOOLCHAIN_6_19_0 to point to the bin directory of the installed toolchain to register the Arm Compiler 6.
 
 ## Project Structure
 
-The project is generated using the [CMSIS-Toolbox](https://github.com/Open-CMSIS-Pack/devtools/blob/main/tools/projmgr/docs/Manual/Overview.md) and is defined in [`csolution`](https://github.com/Open-CMSIS-Pack/devtools/blob/main/tools/projmgr/docs/Manual/YML-Format.md) format:
+The project is generated using the [CMSIS-Toolbox](https://github.com/Open-CMSIS-Pack/devtools/blob/main/tools/projmgr/docs/Manual/Overview.md) and is written in the [`csolution`](https://github.com/Open-CMSIS-Pack/devtools/blob/main/tools/projmgr/docs/Manual/YML-Format.md) format:
 
-- [`get_started.csolution.yml`](./get_started.csolution.yml) lists the required packs and defines the hardware target and build-types (along with the compiler).
-- [`hello/hello.cproject.yml`](./hello/hello.cproject.yml) defines the source files and the project.
+- [`.cdefault.yml`](./.cdefault.yml) sets the default toolchain and specifies toolchain specific commandline options for supported toolchains.
+- [`get_started.csolution.yml`](./get_started.csolution.yml) lists and defines the hardware targets, build-types and projects.
+- [`hello/hello.cproject.yml`](./hello/hello.cproject.yml) defines the packs, components, source files and output files.
 
 ## Build Solution/Project
 
 Use the `cbuild` command from CMSIS-Toolbox to generate and build one or all configurations of the solution:
 
+- find out which `configurations` are specified by the solution:
+```bash
+./ $ cbuild list configurations get_started.csolution.yml
+.debug+vht  
+.release+vht
+```
+
+- build the configuration `.debug+vht` and install the required CMSIS Packs if not installed:
 ```bash
 ./ $ cbuild get_started.csolution.yml --packs --configuration .debug+vht
 
@@ -53,12 +70,22 @@ M652: Generated file for project build: 'hello/tmp/hello/debug/vht/CMakeLists.tx
 info cbuild: build finished successfully!
 ```
 
-> **Note:** During the build process required packs may be downloaded.
+- build the configuration `.debug+vht` using Arm Compiler 6 (AC6)
+Open `.cdefault.yml` file in the edito and configure AC6 as default compiler:
+```yaml
+default:
+  compiler: AC6
+```
+rebuild the configuration adding also missing configuration files:
+```bash
+./ $ cbuild get_started.csolution.yml --configuration .debug+vht --packs --update-rte -r
+```
 
 ## Execute Project
 
-The project is configured for execution on Arm Virtual Hardware which removes the requirement for a physical hardware board.
+The project is configured for execution on Arm Virtual Hardware (AVH) modelling an MPS2 board running an Arm Cortex-M3 processor. 
+This model is part of the Keil MDK Professional Edition for Windows and removes the requirement for a physical hardware board.
 
 ```bash
-./ $ VHT_MPS2_Cortex-M3 -f vht-config.txt -a hello/out/hello/debug/vht/debug+vht.elf
+./ $ VHT_MPS2_Cortex-M3 -f vht-config.txt -a hello/out/hello/debug/vht/debug+vht.axf
 ```

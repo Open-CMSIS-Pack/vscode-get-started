@@ -16,7 +16,7 @@ In case of 'Error: Unable to resolve dependency ... in <registry>' you may need 
 from the 'View' menu's 'Command Palette...' (ctrl+shift+p) typing: `z-ce update <registry>`. 
 7. Open the 'CMSIS' view from the side bar and press the 'Build' button. The last line of the ninja build output will tell you where you can
 find the application elf file. Alternatively you can select 'Build' or 'Rebuild' from the context menu of the `*.cprj` file of the solution context
-(e.g. hello.debug+vht.cprj)
+(e.g. hello.debug+avh.cprj)
 
 Note: Any terminal that is openened within VSCode after vcpkg got activated for the folder, will have all the above tools added to the path. 
 This allows you to run tools from the [CMSIS-Toolbox](https://github.com/Open-CMSIS-Pack/devtools/blob/main/tools/projmgr/docs/Manual/Overview.md) like:
@@ -55,22 +55,22 @@ Use the `cbuild` command from CMSIS-Toolbox to generate and build one or all con
 
 - build the configuration `.debug+vht` and install the required CMSIS Packs if not installed:
 ```bash
-./ $ cbuild get_started.csolution.yml --packs --configuration .debug+vht
+./ $ cbuild get_started.csolution.yml --packs --configuration .debug+avh
 
 info cbuild: Build Invocation 1.5.0 (C) 2023 Arm Ltd. and Contributors
 ARM::CMSIS
  :
-info cbuild: Building context: "hello.debug+vht"
+info cbuild: Building context: "hello.debug+avh"
 ================================================
 
 M650: Command completed successfully.
 
-M652: Generated file for project build: 'hello/tmp/hello/debug/vht/CMakeLists.txt'
+M652: Generated file for project build: 'hello/tmp/hello/debug/avh/CMakeLists.txt'
  :
 info cbuild: build finished successfully!
 ```
 
-- build the configuration `.debug+vht` using Arm Compiler 6 (AC6)
+- build the configuration `.debug+avh` using Arm Compiler 6 (AC6)
 Open `.cdefault.yml` file in the edito and configure AC6 as default compiler:
 ```yaml
 default:
@@ -78,7 +78,7 @@ default:
 ```
 rebuild the configuration adding also missing configuration files:
 ```bash
-./ $ cbuild get_started.csolution.yml --configuration .debug+vht --packs --update-rte -r
+./ $ cbuild get_started.csolution.yml --configuration .debug+avh --packs --update-rte -r
 ```
 
 ## Execute Project
@@ -87,5 +87,5 @@ The project is configured for execution on Arm Virtual Hardware (AVH) modelling 
 This model is part of the Keil MDK Professional Edition for Windows and removes the requirement for a physical hardware board.
 
 ```bash
-./ $ VHT_MPS2_Cortex-M3 -f vht-config.txt -a hello/out/hello/debug/vht/debug+vht.axf
+./ $ VHT_MPS2_Cortex-M3 -f vht-config.txt -a hello/out/hello/debug/avh/debug+avh.axf
 ```

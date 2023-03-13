@@ -25,6 +25,8 @@ This allows you to run tools from the [CMSIS-Toolbox](https://github.com/Open-CM
   to the CMSIS Build [XML `cprj` format](https://open-cmsis-pack.github.io/devtools/buildmgr/latest/element_cprj.html) used by `cbuildgen`.
 - [`cbuildgen`](https://open-cmsis-pack.github.io/devtools/buildmgr/latest/cbuildgen.html#cbuildgen_invocation) 
 - [`cbuild`](https://github.com/Open-CMSIS-Pack/cbuild#usage) for an orchestrated build of one or more `configurations` of a csolution.
+
+Attention: defect in 1.5.0 for **macOS** requires to set the environment variable `CMSIS_PACK_ROOT` (${HOME}/.cache/arm/packs) because the default location is incorrectly set by `csolution` and `cbuildgen`.
    
 ## Additional Tools
 

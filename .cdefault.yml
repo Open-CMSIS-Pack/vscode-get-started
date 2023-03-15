@@ -13,6 +13,7 @@ default:
 
     - for-compiler: AC6
       C-CPP:
+        - -ffunction-sections
         - -Wno-macro-redefined
         - -Wno-pragma-pack
         - -Wno-parentheses-equality

@@ -2,10 +2,10 @@
 
 project:
 
-  # it's recommended to list the packs that are used by the solution,
+  # it's recommended to explicitly list the packs that are used by the solution/project,
   # otherwise all installed packs are used to discover components
-  packs:
-    - pack: ARM::CMSIS
+  # packs:
+  #   - pack: ARM::CMSIS
 
   components:
     - component: CMSIS:CORE                             # short form, vendor selected from available packs

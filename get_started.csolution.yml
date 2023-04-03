@@ -2,6 +2,10 @@
 
 solution:
 
+  # Arm CMSIS Solution Extension currently (v0.18.0) requires packs to be listed in csolution file 
+  packs:
+    - pack: ARM::CMSIS
+
   target-types:
     - type: avh                               # runs on Arm Virtual Hardware
       device: ARMCM3

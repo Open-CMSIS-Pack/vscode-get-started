@@ -23,6 +23,7 @@ default:
         - -masm=auto
       Link:
         - --entry=Reset_Handler
+        - --map
         - --info summarysizes
 
     - for-compiler: IAR

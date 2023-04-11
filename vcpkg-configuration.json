@@ -12,19 +12,14 @@
     },
     {
       "kind": "artifact",
-      "location": "https://aka.ms/vcpkg-artifacts-community",
-      "name": "community"
-    },
-    {
-      "kind": "artifact",
       "location": "https://aka.ms/vcpkg-artifacts-cmsis",
       "name": "open-cmsis-pack"
     }
   ],
   "requires": {
     "microsoft:cmake": "^3.25.2",
-    "open-cmsis-pack:tools/open-cmsis-pack/ctools": "^1.5.0",
-    "community:ninja": "^1.10.2",
-    "microsoft:compilers/arm-none-eabi-gcc": "^10.3.1-2021.10"
+    "microsoft:ninja": "^1.10.2",
+    "microsoft:compilers/arm-none-eabi-gcc": "^10.3.1-2021.10",
+    "open-cmsis-pack:tools/open-cmsis-pack/ctools": "^1.5.0"
   }
 }

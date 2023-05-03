@@ -11,6 +11,7 @@ project:
     - component: CMSIS:CORE                             # short form, vendor selected from available packs
     - component: Device:Startup&C Startup
     - component: ARM::CMSIS:RTOS2:Keil RTX5&Source      # long form, vendor explicitly stated
+    - component: Device:OS Tick:SysTick
 
   groups:
     - group: Documentation

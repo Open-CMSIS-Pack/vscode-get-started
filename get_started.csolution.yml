@@ -2,9 +2,11 @@
 
 solution:
 
-  # Arm CMSIS Solution Extension currently (v0.18.0) requires packs to be listed in csolution file 
+  # Arm CMSIS Solution Extension currently (v0.18.0) requires packs to be listed in csolution file
   packs:
     - pack: ARM::CMSIS
+    - pack: ARM::CMSIS_DFP
+    - pack: ARM::CMSIS-RTX
 
   target-types:
     - type: avh                               # runs on Arm Virtual Hardware

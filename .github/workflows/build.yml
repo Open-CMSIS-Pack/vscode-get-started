@@ -14,11 +14,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Cache vcpkg
-        uses: actions/cache@v3
-        with:
-          key: vcpkg
-          path: /home/runner/.vcpkg
+#      - name: Cache vcpkg
+#        uses: actions/cache@v3
+#        with:
+#          key: vcpkg
+#          path: /home/runner/.vcpkg
 
       - name: Cache packs
         uses: actions/cache@v3

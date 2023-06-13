@@ -1,8 +1,10 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/schemas/projmgr/1.5.0/tools/projmgr/schemas/csolution.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/schemas/projmgr/2.0.0-dev1/tools/projmgr/schemas/csolution.schema.json
 
 solution:
+  created-for: cmsis-toolbox@2.0.0
+  cdefault:
+  compiler: GCC
 
-  # Arm CMSIS Solution Extension currently (v0.18.0) requires packs to be listed in csolution file 
   packs:
     - pack: ARM::CMSIS
 
@@ -20,11 +22,5 @@ solution:
       optimize: balanced
       debug: off
 
-  projects:                               # list related projects
+  projects:                                    # list related projects
     - project: ./hello/hello.cproject.yml
-
-# Separate outout directories
-#  output-dirs:
-#   cprjdir: ./build/$Project$/$Compiler$/$BuildType$+$TargetType$
-#   intdir:  ./build/$Project$/$Compiler$/$BuildType$+$TargetType$/intdir
-#   outdir:  ./build/$Project$/$Compiler$/$BuildType$+$TargetType$/outdir

@@ -1,11 +1,6 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/schemas/projmgr/1.5.0/tools/projmgr/schemas/cproject.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/schemas/projmgr/2.0.0-dev1/tools/projmgr/schemas/cproject.schema.json
 
 project:
-
-  # it's recommended to explicitly list the packs that are used by the solution/project,
-  # otherwise all installed packs are used to discover components
-  # packs:
-  #   - pack: ARM::CMSIS
 
   components:
     - component: CMSIS:CORE                             # short form, vendor selected from available packs
@@ -20,7 +15,3 @@ project:
     - group: Source
       files:
         - file: ./main.c
-
-  output:
-    - type: elf
-      file: $Project$.$BuildType$+$TargetType$.axf

@@ -7,10 +7,10 @@ This repository builds an ELF file that prints "GetStarted World" and a counter 
 3. From the 'View' menu open 'Source Control'. Select 'Clone Repository' and copy the url: https://github.com/Open-CMSIS-Pack/vscode-get-started into the input dialog
 4. Specify the destination folder to clone to and select 'Open' when asked 'Would you like to open the cloned directory?'
 5. Open the 'Explorer' view (ctrl-shift-e) and select the file 'vcpkg-configuration.json'. This file instructs [Microsoft vcpkg](https://github.com/microsoft/vcpkg-tool#vcpkg-artifacts) to install the prerequisite artifacts required for building the solution.
-  - ctools 1.7.0  [CMSIS-Toolbox](https://github.com/Open-CMSIS-Pack/devtools/blob/main/tools/projmgr/docs/Manual/Overview.md)
+  - ctools 2.0.0  [CMSIS-Toolbox](https://github.com/Open-CMSIS-Pack/devtools/blob/main/tools/projmgr/docs/Manual/Overview.md)
   - cmake 3.25.2
   - ninja 1.10.2
-  - arm-none-eabi-gcc 10.3.1-2021.10 (GNU Arm Embedded Toolchain 10.3.1)
+  - arm-none-eabi-gcc 12.2.1-mpacbti (GNU Arm Embedded Toolchain 12.2.1)
 6. In case vcpkg shows an error in the VSCode status bar, you can see furth information in the "OUTPUT" for 'vcpkg'.
 In case of 'Error: Unable to resolve dependency ... in <registry>' you may need to update the registry by running 'vcpkg: Run vcpkg command'
 from the 'View' menu's 'Command Palette...' (ctrl+shift+p) typing: `z-ce update <registry>`. 
@@ -46,18 +46,18 @@ The project is generated using the [CMSIS-Toolbox](https://github.com/Open-CMSIS
 
 Use the `cbuild` command from CMSIS-Toolbox to generate and build one or all configurations of the solution:
 
-- find out which `configurations` are specified by the solution:
+- find out which `contexts` are specified by the solution:
 ```bash
-./ $ cbuild list configurations get_started.csolution.yml
+./ $ cbuild list contexts get_started.csolution.yml
 .debug+vht  
 .release+vht
 ```
 
-- build the configuration `.debug+vht` and install the required CMSIS Packs if not installed:
+- build the context `.debug+vht` and install the required CMSIS Packs if not installed:
 ```bash
-./ $ cbuild get_started.csolution.yml --packs --update-rte --configuration .debug+avh
+./ $ cbuild get_started.csolution.yml --packs --update-rte --context .debug+avh
 
-info cbuild: Build Invocation 1.5.0 (C) 2023 Arm Ltd. and Contributors
+info cbuild: Build Invocation 2.0.0 (C) 2023 Arm Ltd. and Contributors
 ARM::CMSIS
  :
 info cbuild: Building context: "hello.debug+avh"
@@ -71,14 +71,13 @@ info cbuild: build finished successfully!
 ```
 
 - build the configuration `.debug+avh` using Arm Compiler 6 (AC6)
-Open `.cdefault.yml` file in the edito and configure AC6 as default compiler:
+Open `get_started.csolution.yml` file in the editor and configure AC6 as compiler:
 ```yaml
-default:
   compiler: AC6
 ```
-rebuild the configuration adding also missing configuration files:
+rebuild the configuration after adding and generating missing configuration files (`--update-rte`):
 ```bash
-./ $ cbuild get_started.csolution.yml --configuration .debug+avh --packs --update-rte -r
+./ $ cbuild get_started.csolution.yml --configuration .debug+avh --packs --update-rte --rebuild
 ```
 
 ## Execute Project
@@ -87,5 +86,5 @@ The project is configured for execution on Arm Virtual Hardware (AVH) modelling 
 This model is part of the Keil MDK Professional Edition for Windows and removes the requirement for a physical hardware board.
 
 ```bash
-./ $ VHT_MPS2_Cortex-M3 -f vht-config.txt -a hello/out/hello/debug/avh/debug+avh.axf
+./ $ VHT_MPS2_Cortex-M3 -f vht-config.txt -a hello/out/hello/debug/avh/hello.axf
 ```

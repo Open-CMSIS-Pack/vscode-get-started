@@ -38,7 +38,8 @@ This allows you to run tools from the [CMSIS-Toolbox](https://github.com/Open-CM
 
 The project is generated using the [CMSIS-Toolbox](https://github.com/Open-CMSIS-Pack/devtools/blob/main/tools/projmgr/docs/Manual/Overview.md) and is written in the [`csolution`](https://github.com/Open-CMSIS-Pack/devtools/blob/main/tools/projmgr/docs/Manual/YML-Format.md) format:
 
-- [`.cdefault.yml`](./.cdefault.yml) sets the default toolchain and specifies toolchain specific commandline options for supported toolchains.
+- [`cdefault.yml`] is located in the ./etc directory of the CMSIS-Toolbox. It sets the default toolchain specific commandline options for supported toolchains.
+  In case a solution specific version is required, you can copy the file locally and it will be used by the tools instead.
 - [`get_started.csolution.yml`](./get_started.csolution.yml) lists and defines the hardware targets, build-types and projects.
 - [`hello/hello.cproject.yml`](./hello/hello.cproject.yml) defines the packs, components, source files and output files.
 
@@ -49,13 +50,13 @@ Use the `cbuild` command from CMSIS-Toolbox to generate and build one or all con
 - find out which `contexts` are specified by the solution:
 ```bash
 ./ $ cbuild list contexts get_started.csolution.yml
-.debug+vht  
-.release+vht
+hello.debug+vht  
+hello.release+vht
 ```
 
-- build the context `.debug+vht` and install the required CMSIS Packs if not installed:
+- build the context `hello.debug+vht` and install the required CMSIS Packs if not installed:
 ```bash
-./ $ cbuild get_started.csolution.yml --packs --update-rte --context .debug+avh
+./ $ cbuild get_started.csolution.yml --packs --update-rte --context hello.debug+avh
 
 info cbuild: Build Invocation 2.0.0 (C) 2023 Arm Ltd. and Contributors
 ARM::CMSIS

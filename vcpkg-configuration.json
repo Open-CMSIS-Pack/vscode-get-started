@@ -1,9 +1,4 @@
 {
-  "default-registry": {
-    "kind": "git",
-    "baseline": "032d9d0820db290ce9ff644dabfdf564343013ae",
-    "repository": "https://github.com/microsoft/vcpkg"
-  },
   "registries": [
     {
       "kind": "artifact",
@@ -12,14 +7,14 @@
     },
     {
       "kind": "artifact",
-      "location": "https://aka.ms/vcpkg-artifacts-arm",
+      "location": "https://artifacts.keil.arm.com/vcpkg-ce-registry/registry.zip",
       "name": "arm"
     }
   ],
   "requires": {
     "microsoft:cmake": "^3.25.2",
     "microsoft:ninja": "^1.10.2",
-    "arm:compilers/arm/arm-none-eabi-gcc": "^12.2.1-mpacbti",
-    "arm:tools/open-cmsis-pack/cmsis-toolbox": "^2.0.0-dev1"
+    "arm:compilers/arm/arm-none-eabi-gcc": "^12.2.1-0",
+    "arm:tools/open-cmsis-pack/cmsis-toolbox": "^2.0.0-0"
   }
 }

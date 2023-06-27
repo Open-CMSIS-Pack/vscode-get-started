@@ -1,6 +1,69 @@
 # Visual Studio Code get started solution
 This repository builds an ELF file that prints "GetStarted World" and a counter value via semihosting output on an Arm Virtual Hardware model (Cortex-M3).
 
+## How to setup your CMSIS Csolution CLI Environment:
+1. Install Microsoft vcpkg
+- Windows
+  - cmd
+  ```
+    curl -LO https://aka.ms/vcpkg-init.cmd && .\vcpkg-init.cmd
+  ```
+  - powerShell
+  ```
+    iex (iwr -useb https://aka.ms/vcpkg-init.ps1)
+  ```
+- Linux / macOS
+  - shell
+  ```
+    . <(curl https://aka.ms/vcpkg-init.sh -L)
+  ```
+
+2. Enable vcpkg in your shell
+   - Windows
+     - cmd
+     ```
+       %USERPROFILE%\.vcpkg\vcpkg-init.cmd
+     ```
+     - powerShell
+     ```
+       . ~/.vcpkg/vcpkg-init.ps1
+     ``` 
+   - Linux / macOS
+     - shell
+    ```
+      . ~/.vcpkg/vcpkg-init
+    ```
+    
+3. Activate required tools
+  - from vcpkg-configuration.json
+    ```
+      vcpkg activate [--project  <config>.json]
+    ```
+  - via command line (adhoc) 
+    ```
+      vcpkg use arm:cmsis-toolbox microsoft:cmake microsoft:ninja arm:arm-none-eabi-gcc
+    ```
+
+4. Update registries - to access latest artifact versions
+  ```
+    vcpkg  x-update-registry --all
+  ```
+
+5. Create a new vcpkg configuration file
+  ```
+    vcpkg new --application
+  ```
+  ```
+    vcpkg add artifact arm:cmsis-toolbox [--version major.minor.patch]
+    vcpkg add artifact microsoft:cmake
+    vcpkg add artifact microsoft:ninja
+    vcpkg add artifact arm:arm-none-eabi-gcc
+  ```
+  ```
+    vcpkg  activate
+  ```
+   
+
 ## How to setup your CMSIS Csolution Development Environment:
 1. Download & Install [Microsoft Visual Studio Code](https://code.visualstudio.com/download) for your operating system.
 2. Launch Visual Studio Code. From the 'View' menu open 'Extensions' (ctrl+shift+x). Search for "Keil Studio Pack" and select the install button.

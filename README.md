@@ -3,20 +3,20 @@ This repository builds an ELF file that prints "GetStarted World" and a counter 
 
 ## How to setup your CMSIS Csolution CLI Environment:
 1. Install Microsoft vcpkg
-- Windows
-  - cmd
-  ```
-    curl -LO https://aka.ms/vcpkg-init.cmd && .\vcpkg-init.cmd
-  ```
-  - powerShell
-  ```
-    iex (iwr -useb https://aka.ms/vcpkg-init.ps1)
-  ```
-- Linux / macOS
-  - shell
-  ```
-    . <(curl https://aka.ms/vcpkg-init.sh -L)
-  ```
+    - Windows
+      - cmd
+      ```
+        curl -LO https://aka.ms/vcpkg-init.cmd && .\vcpkg-init.cmd
+      ```
+      - powerShell
+      ```
+        iex (iwr -useb https://aka.ms/vcpkg-init.ps1)
+      ```
+    - Linux / macOS
+      - shell
+      ```
+        . <(curl https://aka.ms/vcpkg-init.sh -L)
+      ```
 
 2. Enable vcpkg in your shell
    - Windows
@@ -35,11 +35,15 @@ This repository builds an ELF file that prints "GetStarted World" and a counter 
     ```
     
 3. Activate required tools
-  - from vcpkg-configuration.json
+    - from vcpkg-configuration.json file searched for in current directory or any parent directory
     ```
-      vcpkg activate [--project  <config>.json]
+      vcpkg activate
     ```
-  - via command line (adhoc) 
+    - from named configuration.json file
+    ```
+      vcpkg activate --project mypath/vcpkg-configuration.json
+    ```
+    - via command line (adhoc) 
     ```
       vcpkg use arm:cmsis-toolbox microsoft:cmake microsoft:ninja arm:arm-none-eabi-gcc
     ```

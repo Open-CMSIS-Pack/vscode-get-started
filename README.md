@@ -48,12 +48,17 @@ This repository builds an ELF file that prints "GetStarted World" and a counter 
       vcpkg use arm:cmsis-toolbox microsoft:cmake microsoft:ninja arm:arm-none-eabi-gcc
     ```
 
-4. Update registries - to access latest artifact versions
+4. Deactivate previous configuration
+  ```
+    vcpkg deactivate
+  ```
+
+5. Update registries - to access latest artifact versions
   ```
     vcpkg  x-update-registry --all
   ```
 
-5. Create a new vcpkg configuration file
+6. Create a new vcpkg configuration file
   ```
     vcpkg new --application
   ```
@@ -66,7 +71,17 @@ This repository builds an ELF file that prints "GetStarted World" and a counter 
   ```
     vcpkg  activate
   ```
-   
+
+Note: The above setup uses default values instead of the Environment Variables:
+  - CMSIS_COMPILER_ROOT `./etc` directory of the CMSIS-Toolbox installation
+  - CMSIS_PACK_ROOT
+
+    Platform    | Default path
+    :-----------|:------------
+    Linux       | ${HOME}/.cache/arm/packs
+    Windows     | ${LOCALAPPDATA}/Arm/Packs
+    MacOS       | ${HOME}/.cache/arm/packs
+    WSL_Windows | ${LOCALAPPDATA}/Arm/Packs
 
 ## How to setup your CMSIS Csolution Development Environment:
 1. Download & Install [Microsoft Visual Studio Code](https://code.visualstudio.com/download) for your operating system.

@@ -1,6 +1,8 @@
 # Visual Studio Code get started solution
 This repository builds an ELF file that prints "GetStarted World" and a counter value via semihosting output on an Arm Virtual Hardware model (Cortex-M3).
 
+**[Click to clone example into VSCode](vscode://vscode.git/clone?url=https://github.com/Open-CMSIS-Pack/vscode-get-started)**
+
 ## How to setup your CMSIS Csolution CLI Environment:
 1. Install Microsoft vcpkg
     - Windows

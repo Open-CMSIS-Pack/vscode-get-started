@@ -35,7 +35,7 @@ jobs:
       - run: |
           . <(curl https://aka.ms/vcpkg-init.sh -L)
           vcpkg activate
-          cbuild get_started.csolution.yml --packs --update-rte --context .debug+avh
+          cbuild get_started.csolution.yml --packs --update-rte --configuration .debug+avh
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2

@@ -108,7 +108,7 @@ This allows you to run tools from the [CMSIS-Toolbox](https://github.com/Open-CM
 ## Additional Tools
 
 - [Keil MDK 5.38a](https://www2.keil.com/mdk5/) or later
-  - VHT_MPS2_Cortex-M3: Arm Virtual Hardware for Cortex-M3 (v11.19.23 - Windows only - requires MDK-Professional license)
+  - VHT_MPS2_Cortex-M3: [Arm Virtual Hardware](https://arm-software.github.io/AVH/main/overview/html/index.html) for Cortex-M3 (v11.19.23 - Windows only - requires MDK-Professional license)
     - set the environment variable PATH to point to the 'VHT' directory of the MDK installation (`c:\Keil_v5\ARM\VHT`).
   - Arm Compiler 6.19 (included in Keil MDK: Community Edition is sufficient for building the solution)
     - set the environment variable AC6_TOOLCHAIN_6_19_0 to point to the bin directory of the installed toolchain to register the Arm Compiler 6.
@@ -157,7 +157,7 @@ Open `get_started.csolution.yml` file in the editor and configure AC6 as compile
 ```
 rebuild the configuration after adding and generating missing configuration files (`--update-rte`):
 ```bash
-./ $ cbuild get_started.csolution.yml --configuration .debug+avh --packs --update-rte --rebuild
+./ $ cbuild get_started.csolution.yml --context .debug+avh --packs --update-rte --rebuild
 ```
 
 ## Execute Project
@@ -166,5 +166,5 @@ The project is configured for execution on Arm Virtual Hardware (AVH) modelling 
 This model is part of the Keil MDK Professional Edition for Windows and removes the requirement for a physical hardware board.
 
 ```bash
-./ $ VHT_MPS2_Cortex-M3 -f vht-config.txt -a hello/out/hello/debug/avh/hello.axf
+./ $ VHT_MPS2_Cortex-M3 -f vht-config.txt -a out/hello/avh/debug/hello.axf
 ```

@@ -1,27 +1,3 @@
-/******************************************************************************
- * @file     gcc_arm.ld
- * @brief    GNU Linker Script for Cortex-M based device
- * @version  V2.1.0
- * @date     04. August 2020
- ******************************************************************************/
-/*
- * Copyright (c) 2009-2020 Arm Limited. All rights reserved.
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 (the License); you may
- * not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an AS IS BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 /*
  *-------- <<< Use Configuration Wizard in Context Menu >>> -------------------
  */
@@ -75,7 +51,7 @@ MEMORY
  *   __copy_table_end__
  *   __zero_table_start__
  *   __zero_table_end__
- *   __etext
+ *   __etext          (deprecated)
  *   __data_start__
  *   __preinit_array_start
  *   __preinit_array_end
@@ -124,18 +100,6 @@ SECTIONS
     KEEP(*(.eh_frame*))
   } > FLASH
 
-  /*
-   * SG veneers:
-   * All SG veneers are placed in the special output section .gnu.sgstubs. Its start address
-   * must be set, either with the command line option ‘--section-start’ or in a linker script,
-   * to indicate where to place these veneers in memory.
-   */
-/*
-  .gnu.sgstubs :
-  {
-    . = ALIGN(32);
-  } > FLASH
-*/
   .ARM.extab :
   {
     *(.ARM.extab* .gnu.linkonce.armextab.*)
@@ -153,15 +117,15 @@ SECTIONS
     . = ALIGN(4);
     __copy_table_start__ = .;
 
-    LONG (__etext)
-    LONG (__data_start__)
-    LONG ((__data_end__ - __data_start__) / 4)
+    LONG (LOADADDR(.data))
+    LONG (ADDR(.data))
+    LONG (SIZEOF(.data) / 4)
 
     /* Add each additional data section here */
 /*
-    LONG (__etext2)
-    LONG (__data2_start__)
-    LONG ((__data2_end__ - __data2_start__) / 4)
+    LONG (LOADADDR(.data2))
+    LONG (ADDR(.data2))
+    LONG (SIZEOF(.data2) / 4)
 */
     __copy_table_end__ = .;
   } > FLASH
@@ -170,22 +134,27 @@ SECTIONS
   {
     . = ALIGN(4);
     __zero_table_start__ = .;
+
+/*  .bss initialization to zero is already done during C Run-Time Startup.
+    LONG (ADDR(.bss))
+    LONG (SIZEOF(.bss) / 4)
+*/
+
     /* Add each additional bss section here */
 /*
-    LONG (__bss2_start__)
-    LONG ((__bss2_end__ - __bss2_start__) / 4)
+    LONG (ADDR(.bss2))
+    LONG (SIZEOF(.bss2) / 4)
 */
     __zero_table_end__ = .;
   } > FLASH
 
-  /**
-   * Location counter can end up 2byte aligned with narrow Thumb code but
-   * __etext is assumed by startup code to be the LMA of a section in RAM
-   * which must be 4byte aligned 
+  /*
+   * This __etext variable is kept for backward compatibility with older,
+   * ASM based startup files.
    */
-  __etext = ALIGN (4);
+  PROVIDE(__etext = LOADADDR(.data));
 
-  .data : AT (__etext)
+  .data : ALIGN(4)
   {
     __data_start__ = .;
     *(vtable)
@@ -217,19 +186,17 @@ SECTIONS
     /* All data end */
     __data_end__ = .;
 
-  } > RAM
+  } > RAM AT > FLASH
 
   /*
    * Secondary data section, optional
    *
    * Remember to add each additional data section
-   * to the .copy.table above to asure proper
+   * to the .copy.table above to assure proper
    * initialization during startup.
    */
 /*
-  __etext2 = ALIGN (4);
-
-  .data2 : AT (__etext2)
+  .data2 : ALIGN(4)
   {
     . = ALIGN(4);
     __data2_start__ = .;
@@ -238,7 +205,7 @@ SECTIONS
     . = ALIGN(4);
     __data2_end__ = .;
 
-  } > RAM2
+  } > RAM2 AT > FLASH
 */
 
   .bss :
@@ -256,7 +223,7 @@ SECTIONS
    * Secondary bss section, optional
    *
    * Remember to add each additional bss section
-   * to the .zero.table above to asure proper
+   * to the .zero.table above to assure proper
    * initialization during startup.
    */
 /*
@@ -271,7 +238,7 @@ SECTIONS
   } > RAM2 AT > RAM2
 */
 
-  .heap (COPY) :
+  .heap (NOLOAD) :
   {
     . = ALIGN(8);
     __end__ = .;
@@ -281,7 +248,7 @@ SECTIONS
     __HeapLimit = .;
   } > RAM
 
-  .stack (ORIGIN(RAM) + LENGTH(RAM) - __STACK_SIZE) (COPY) :
+  .stack (ORIGIN(RAM) + LENGTH(RAM) - __STACK_SIZE) (NOLOAD) :
   {
     . = ALIGN(8);
     __StackLimit = .;

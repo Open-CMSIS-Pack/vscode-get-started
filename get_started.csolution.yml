@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/schemas/projmgr/2.0.0-dev1/tools/projmgr/schemas/csolution.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/schemas/projmgr/2.2.1/tools/projmgr/schemas/csolution.schema.json
 
 solution:
   created-for: cmsis-toolbox@2.0.0
@@ -7,6 +7,8 @@ solution:
 
   packs:
     - pack: ARM::CMSIS
+    - pack: ARM::Cortex_DFP
+    - pack: ARM::CMSIS-RTX
 
   target-types:
     - type: avh                               # runs on Arm Virtual Hardware

@@ -1,19 +1,19 @@
 {
   "registries": [
     {
+      "name": "microsoft",
       "kind": "artifact",
-      "location": "https://aka.ms/vcpkg-ce-default",
-      "name": "microsoft"
+      "location": "https://aka.ms/vcpkg-ce-default"
     },
     {
+      "name": "arm",
       "kind": "artifact",
-      "location": "https://artifacts.keil.arm.com/vcpkg-ce-registry/registry.zip",
-      "name": "arm"
+      "location": "https://artifacts.keil.arm.com/vcpkg-ce-registry/registry.zip"
     }
   ],
   "requires": {
-    "microsoft:cmake": "^3.25.2",
-    "microsoft:ninja": "^1.10.2",
+    "microsoft:tools/kitware/cmake": "^3.25.2",
+    "microsoft:tools/ninja-build/ninja": "^1.10.2",
     "arm:compilers/arm/arm-none-eabi-gcc": "^13.2.1-0",
     "arm:tools/open-cmsis-pack/cmsis-toolbox": "^2.0.0-0"
   }

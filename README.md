@@ -88,7 +88,7 @@ Note: The above setup uses default values instead of the Environment Variables:
 2. Launch Visual Studio Code. From the 'View' menu open 'Extensions' (ctrl+shift+x). Search for "Keil Studio Pack" and select the install button.
 3. From the 'View' menu open 'Source Control'. Select 'Clone Repository' and copy the url: https://github.com/Open-CMSIS-Pack/vscode-get-started into the input dialog
 4. Specify the destination folder to clone to and select 'Open' when asked 'Would you like to open the cloned directory?'
-5. Open the 'Explorer' view (ctrl-shift-e) and select the file 'vcpkg-configuration.json'. This file instructs [Microsoft vcpkg](https://github.com/microsoft/vcpkg-tool#vcpkg-artifacts) to install the prerequisite artifacts required for building the solution and puts it into the PATH: cmkae, ninja, cmsis-toolbox as well as arm-none-eabi-gcc.
+5. Open the 'Explorer' view (ctrl-shift-e) and select the file 'vcpkg-configuration.json'. This file instructs [Microsoft vcpkg](https://github.com/microsoft/vcpkg-tool#vcpkg-artifacts) to install the prerequisite artifacts required for building the solution and puts it into the PATH: cmake, ninja, cmsis-toolbox as well as arm-none-eabi-gcc.
 6. Open the 'CMSIS' view from the side bar and press the 'Build' button. The last line of the ninja build output will tell you where you can
 find the application elf file. Alternatively you can select 'Build' or 'Rebuild' from the context menu of the `*.csolution.yml` file of the solution context
 (e.g. get_started.csolution.yml) to build all contexts of the solution.

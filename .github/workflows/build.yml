@@ -1,41 +1,106 @@
-name: Build GetStarted example
+name: Test get_started example
 on:
   workflow_dispatch:
   pull_request:
     branches: [main]
   push:
     branches: [main]
+  schedule:
+    - cron: '30 22 * * 0'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions: 
+  actions: read
+
+env:
+  ARM_UBL_ACTIVATION_CODE: ${{ secrets.ARM_UBL_ACTIVATION_CODE }} 
 
 jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-latest
+  build-and-run:
+    strategy:
+      fail-fast: true
+      matrix:
+        compiler: [AC6, GCC, CLANG]
+    
+    runs-on: ubuntu-latest    
+
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-#      - name: Cache vcpkg
-#        uses: actions/cache@v3
-#        with:
-#          key: vcpkg
-#          path: /home/runner/.vcpkg
+      - name: Setup Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'    
+
+      - name: Install system packages
+        run: |
+          sudo add-apt-repository ppa:deadsnakes/ppa
+          sudo apt-get install libpython3.9 libtinfo5
 
       - name: Cache packs
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
-          key: packs
+          key: packs-${{ github.run_id }}-${{ matrix.compiler }}
+          restore-keys: |
+              packs-
           path: /home/runner/.cache/arm/packs
 
+      - name: Activate vcpkg
+        uses: JonatanAntoni/actions/vcpkg@main
+        with:
+          cache: "-${{ matrix.compiler }}"
+
+      - name: Activate Arm tool license
+        run: |
+          if [[ -n "${{ env.ARM_UBL_ACTIVATION_CODE }}" ]]; then
+            armlm activate --code ${{ env.ARM_UBL_ACTIVATION_CODE }}
+          else
+            armlm activate --server https://mdk-preview.keil.arm.com --product KEMDK-COM0
+          fi
+
+      - uses: ammaraskar/gcc-problem-matcher@master
+        if: matrix.compiler == 'GCC'
+
       - name: Initialize CodeQL
+        if: matrix.compiler == 'GCC'
         uses: github/codeql-action/init@v2
         with:
           languages: cpp
           queries: security-and-quality
 
-      - run: |
-          . <(curl https://aka.ms/vcpkg-init.sh -L)
-          vcpkg activate
-          cbuild get_started.csolution.yml --packs --update-rte --context .debug+avh
+      - name: Build
+        run: |
+          echo "Building get started example ..."
+          cbuild get_started.csolution.yml --packs --update-rte --context .debug+avh --toolchain ${{ matrix.compiler }}
 
       - name: Perform CodeQL Analysis
+        if: ${{ !cancelled() && matrix.compiler == 'GCC' }}
         uses: github/codeql-action/analyze@v2
+  
+      - name: Execute
+        if: ${{ env.ARM_UBL_ACTIVATION_CODE }}
+        run: |
+          echo "Running get started example ..."
+          ext=""
+          case "${{ matrix.compiler }}" in
+            AC6) ext="axf" ;;
+            GCC) ext="elf";;
+            CLANG) ext="elf" ;;
+          esac
+          FVP_MPS2_Cortex-M3 --simlimit 10 -f vht-config.txt -a out/hello/avh/debug/hello.${ext} | tee model.log
+          echo "Checking output..."
+          grep "Hello World" model.log | wc -l
+          test "$(grep "Hello World" model.log | wc -l)" -eq 10
+
+      - name: Deactivate Arm tool license
+        if: always()
+        run: |
+          if [[ -n "${{ env.ARM_UBL_ACTIVATION_CODE }}" ]]; then
+            armlm deactivate --code ${{ env.ARM_UBL_ACTIVATION_CODE }}
+          else
+            armlm deactivate --product KEMDK-COM0
+          fi

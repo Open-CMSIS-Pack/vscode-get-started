@@ -4,107 +4,7 @@ This repository builds an ELF file that prints "GetStarted World" and a counter 
 
 ## How to setup your CMSIS Csolution CLI Environment
 
-1. Install Microsoft vcpkg
-    - Windows
-      - cmd
-
-        ```cmd
-          curl -LO https://aka.ms/vcpkg-init.cmd && .\vcpkg-init.cmd
-        ```
-
-      - powerShell
-
-        ```ps1
-          iex (iwr -useb https://aka.ms/vcpkg-init.ps1)
-        ```
-
-    - Linux / macOS
-      - shell
-
-        ```sh
-          . <(curl https://aka.ms/vcpkg-init.sh -L)
-        ```
-
-2. Enable vcpkg in your shell
-   - Windows
-     - cmd
-
-      ```cmd
-        %USERPROFILE%\.vcpkg\vcpkg-init.cmd
-      ```
-
-     - powerShell
-
-      ```ps1
-        . ~/.vcpkg/vcpkg-init.ps1
-      ```
-
-   - Linux / macOS
-     - shell
-
-      ```sh
-        . ~/.vcpkg/vcpkg-init
-      ```
-
-3. Activate required tools
-    - from vcpkg-configuration.json file searched for in current directory or any parent directory
-
-      ```sh
-        vcpkg activate
-      ```
-
-    - from named configuration.json file
-
-      ```sh
-        vcpkg activate --project mypath/vcpkg-configuration.json
-      ```
-
-    - via command line (adhoc)
-
-      ```sh
-        vcpkg use arm:cmsis-toolbox microsoft:cmake microsoft:ninja arm:arm-none-eabi-gcc
-      ```
-
-4. Deactivate previous configuration
-
-    ```sh
-      vcpkg deactivate
-    ```
-
-5. Update registries - to access latest artifact versions
-
-    ```sh
-      vcpkg  x-update-registry --all
-    ```
-
-6. Create a new vcpkg configuration file
-
-    ```sh
-      vcpkg new --application
-    ```
-
-    ```sh
-      vcpkg add artifact arm:cmsis-toolbox [--version major.minor.patch]
-      vcpkg add artifact microsoft:cmake
-      vcpkg add artifact microsoft:ninja
-      vcpkg add artifact arm:arm-none-eabi-gcc
-    ```
-
-    ```sh
-      vcpkg  activate
-    ```
-
-Note: The above setup uses default values instead of the Environment Variables
-
-- CMSIS_COMPILER_ROOT `./etc` directory of the CMSIS-Toolbox installation
-- CMSIS_PACK_ROOT
-
-  Platform    | Default path
-  :-----------|:------------
-  Linux       | ${HOME}/.cache/arm/packs
-  Windows     | ${LOCALAPPDATA}/Arm/Packs
-  MacOS       | ${HOME}/.cache/arm/packs
-  WSL_Windows | ${LOCALAPPDATA}/Arm/Packs
+Refer to the [installation guide of CMSIS-Toolbox](https://github.com/Open-CMSIS-Pack/cmsis-toolbox/blob/main/docs/installation.md#vcpkg---setup-using-cli).
 
 ## How to setup your CMSIS Csolution Development Environment
 
@@ -119,6 +19,7 @@ find the application elf file. Alternatively you can select 'Build' or 'Rebuild'
 
 Note: Any terminal that is opened within VSCode after vcpkg got activated for the folder, will have all the above tools added to the path.
 This allows you to run tools from the [CMSIS-Toolbox](https://github.com/Open-CMSIS-Pack/cmsis-toolbox/blob/main/docs/build-tools.md) like:
+
 - [`cpackget`](https://github.com/Open-CMSIS-Pack/cmsis-toolbox/blob/main/docs/build-tools.md#cpackget-invocation) for installing and uninstalling CMSIS-Packs
 - [`csolution`](https://github.com/Open-CMSIS-Pack/cmsis-toolbox/blob/main/docs/build-tools.md#csolution-invocation) for updating, validating and converting from the CMSIS Project Management [YML input format](https://github.com/Open-CMSIS-Pack/devtools/blob/main/tools/projmgr/docs/Manual/YML-Input-Format.md#yaml-input-format)
   to the CMSIS Build [XML `cprj` format](https://open-cmsis-pack.github.io/devtools/buildmgr/latest/element_cprj.html) used by `cbuildgen`.
@@ -127,8 +28,9 @@ This allows you to run tools from the [CMSIS-Toolbox](https://github.com/Open-CM
 ## Additional Tools
 
 - Other Arm Tools available via [vcpkg](https://www.keil.arm.com/packages/) e.g.:
-  - Cortex-M3 Model: [Arm Virtual Hardware for Cortex-M based on FastModels](https://www.keil.arm.com/packages/#models/arm/avh-fvp)
-  - Arm Toolchain: [Arm Compiler for Embedded](https://www.keil.arm.com/packages/#compilers/arm/armclang) 
+  - Models: [Arm Virtual Hardware for Cortex-M based on FastModels](https://www.keil.arm.com/packages/#models/arm/avh-fvp)
+  - Toolchain: [Arm Compiler for Embedded](https://www.keil.arm.com/packages/#compilers/arm/armclang)
+  - Debugger: [Arm Debugger](https://www.keil.arm.com/artifacts/#debuggers/arm/armdbg)
 
 ## Project Structure
 
@@ -146,7 +48,7 @@ Use the `cbuild` command from CMSIS-Toolbox to generate and build one or all con
 - find out which `contexts` are specified by the solution:
 
   ```bash
-  ./ $ cbuild list contexts get_started.csolution.yml
+  cbuild list contexts get_started.csolution.yml
   hello.debug+avh
   hello.release+avh
   ```
@@ -154,7 +56,7 @@ Use the `cbuild` command from CMSIS-Toolbox to generate and build one or all con
 - build the context `hello.debug+avh` and install the required CMSIS Packs if not installed:
 
   ```bash
-  ./ $ cbuild get_started.csolution.yml --packs --update-rte --context hello.debug+avh
+  cbuild get_started.csolution.yml --packs --update-rte --context hello.debug+avh
   info cbuild: Build Invocation 2.2.1 (C) 2023 Arm Ltd. and Contributors
   /tmp/vscode-get-started/get_started.cbuild-idx.yml - info csolution: file generated successfully
   /tmp/vscode-get-started/hello/hello.debug+avh.cbuild.yml - info csolution: file generated successfully
@@ -177,24 +79,17 @@ Use the `cbuild` command from CMSIS-Toolbox to generate and build one or all con
   `--rebuild` and the required compiler `--toolchain AC6`:
 
   ```bash
-  ./ $ cbuild get_started.csolution.yml --context .debug+avh --packs --update-rte --rebuild --toolchain AC6
+  cbuild get_started.csolution.yml --context .debug+avh --packs --update-rte --rebuild --toolchain AC6
   ```
 
 ## Execute Project
 
 The project is configured for execution on Arm Virtual Hardware (AVH) modelling an MPS2 board running an Arm Cortex-M3 processor.
-This model is part of the Keil MDK Professional Edition for Windows and removes the requirement for a physical hardware board.
+This model is part of the MDK Professional Edition and removes the requirement for a physical hardware board. It *DOES NOT WORK* with the 
+MDK Community Edition.
 
 Note: depending on the toolchain used the extension of the application file is either `elf` (GCC, Clang) or `axf` (AC6):
 
 ```bash
-./ $ c:\Keil_v5\ARM\VHT\VHT_MPS2_Cortex-M3 -f vht-config.txt -a out\hello\avh\debug\hello.axf
-```
-
-Alternatively the AVH-FVP models can be installed using vcpkg (`vcpkg use avh-fvp`)
-
-Note: license required
-
-```bash
-./ $ FVP_MPS2_Cortex-M3 -f vht-config.txt -a out/hello/avh/debug/hello.axf
+FVP_MPS2_Cortex-M3 -f vht-config.txt -a out/hello/avh/debug/hello.axf
 ```

@@ -2,17 +2,13 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "CMSIS Build",
-			"type": "cmsis-csolution.build",
-			"solution": "${command:cmsis-csolution.getSolutionPath}",
-			"project": "${command:cmsis-csolution.getProjectPath}",
-			"buildType": "${command:cmsis-csolution.getBuildType}",
-			"targetType": "${command:cmsis-csolution.getTargetType}",
+			"type": "virtual-hardware.run",
+			"program": "${command:virtual-hardware.getBinaryFile}",
+			"model": "${command:virtual-hardware.getModel}",
+			"config": "${workspaceFolder}/vht-config.txt",
+			"args": ["--simlimit", "20"],
 			"problemMatcher": [],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
+			"label": "virtual-hardware.run: Run Program"
 		}
 	]
 }

@@ -57,3 +57,4 @@ tmp
 **/.clangd
 **/*.cbuild.yml
 **/*.cprj
+**/*.cbuild-set.yml

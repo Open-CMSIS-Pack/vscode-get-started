@@ -14,6 +14,7 @@ concurrency:
 
 permissions: 
   actions: read
+  security-events: write
 
 env:
   ARM_UBL_ACTIVATION_CODE: ${{ secrets.ARM_UBL_ACTIVATION_CODE }} 

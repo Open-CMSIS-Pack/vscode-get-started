@@ -91,5 +91,5 @@ MDK Community Edition.
 Note: depending on the toolchain used the extension of the application file is either `elf` (GCC, Clang) or `axf` (AC6):
 
 ```bash
-FVP_MPS2_Cortex-M3 -f vht-config.txt -a out/hello/avh/debug/hello.axf
+FVP_MPS2_Cortex-M3 -f fvp-config.txt -a out/hello/avh/debug/hello.axf
 ```

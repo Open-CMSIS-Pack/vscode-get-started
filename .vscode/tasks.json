@@ -5,7 +5,7 @@
 			"type": "virtual-hardware.run",
 			"program": "${command:virtual-hardware.getBinaryFile}",
 			"model": "${command:virtual-hardware.getModel}",
-			"config": "${workspaceFolder}/vht-config.txt",
+			"config": "${workspaceFolder}/fvp-config.txt",
 			"args": ["--simlimit", "20"],
 			"problemMatcher": [],
 			"label": "virtual-hardware.run: Run Program"

@@ -92,7 +92,7 @@ jobs:
             GCC) ext="elf";;
             CLANG) ext="elf" ;;
           esac
-          FVP_MPS2_Cortex-M3 --simlimit 10 -f vht-config.txt -a out/hello/avh/debug/hello.${ext} | tee model.log
+          FVP_MPS2_Cortex-M3 --simlimit 10 -f fvp-config.txt -a out/hello/avh/debug/hello.${ext} | tee model.log
           echo "Checking output..."
           grep "Hello World" model.log | wc -l
           test "$(grep "Hello World" model.log | wc -l)" -eq 10

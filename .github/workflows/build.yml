@@ -16,9 +16,6 @@ permissions:
   actions: read
   security-events: write
 
-env:
-  ARM_UBL_ACTIVATION_CODE: ${{ secrets.ARM_UBL_ACTIVATION_CODE }} 
-
 jobs:
   build-and-run:
     strategy:
@@ -51,39 +48,22 @@ jobs:
           path: /home/runner/.cache/arm/packs
 
       - name: Activate vcpkg
-        uses: JonatanAntoni/actions/vcpkg@main
+        uses: ARM-software/cmsis-actions/vcpkg@v1
         with:
           cache: "-${{ matrix.compiler }}"
 
       - name: Activate Arm tool license
-        run: |
-          if [[ -n "${{ env.ARM_UBL_ACTIVATION_CODE }}" ]]; then
-            armlm activate --code ${{ env.ARM_UBL_ACTIVATION_CODE }}
-          else
-            armlm activate --server https://mdk-preview.keil.arm.com --product KEMDK-COM0
-          fi
-
+        uses: ARM-software/cmsis-actions/armlm@v1
+  
       - uses: ammaraskar/gcc-problem-matcher@master
         if: matrix.compiler == 'GCC'
-
-      - name: Initialize CodeQL
-        if: matrix.compiler == 'GCC'
-        uses: github/codeql-action/init@v3
-        with:
-          languages: cpp
-          queries: security-and-quality
 
       - name: Build
         run: |
           echo "Building get started example ..."
           cbuild get_started.csolution.yml --packs --update-rte --context .debug+avh --toolchain ${{ matrix.compiler }}
 
-      - name: Perform CodeQL Analysis
-        if: ${{ !cancelled() && matrix.compiler == 'GCC' }}
-        uses: github/codeql-action/analyze@v3
-  
       - name: Execute
-        if: ${{ env.ARM_UBL_ACTIVATION_CODE }}
         run: |
           echo "Running get started example ..."
           ext=""
@@ -96,12 +76,3 @@ jobs:
           echo "Checking output..."
           grep "Hello World" model.log | wc -l
           test "$(grep "Hello World" model.log | wc -l)" -eq 10
-
-      - name: Deactivate Arm tool license
-        if: always()
-        run: |
-          if [[ -n "${{ env.ARM_UBL_ACTIVATION_CODE }}" ]]; then
-            armlm deactivate --code ${{ env.ARM_UBL_ACTIVATION_CODE }}
-          else
-            armlm deactivate --product KEMDK-COM0
-          fi

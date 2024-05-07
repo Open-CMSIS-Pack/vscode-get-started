@@ -48,14 +48,13 @@ jobs:
           path: /home/runner/.cache/arm/packs
 
       - name: Activate vcpkg
-        uses: JonatanAntoni/actions/vcpkg@main
+        uses: ARM-software/cmsis-actions/vcpkg@v1
         with:
           cache: "-${{ matrix.compiler }}"
 
       - name: Activate Arm tool license
-        run: |
-          armlm activate --server https://mdk-preview.keil.arm.com --product KEMDK-COM0
-
+        uses: ARM-software/cmsis-actions/armlm@v1
+  
       - uses: ammaraskar/gcc-problem-matcher@master
         if: matrix.compiler == 'GCC'
 

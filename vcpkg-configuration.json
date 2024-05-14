@@ -3,7 +3,7 @@
     {
       "name": "arm",
       "kind": "artifact",
-      "location": "https://artifacts.keil.arm.com/vcpkg-registry"
+      "location": "https://artifacts.tools.arm.com/vcpkg-registry"
     }
   ],
   "requires": {

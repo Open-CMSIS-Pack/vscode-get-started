@@ -1,9 +1,13 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/schemas/projmgr/2.2.1/tools/projmgr/schemas/csolution.schema.json
 
 solution:
-  created-for: cmsis-toolbox@2.0.0
+  created-for: cmsis-toolbox@2.6.0
   cdefault:
-  compiler: GCC
+
+  select-compiler:
+    - compiler: GCC
+    - compiler: AC6
+    - compiler: CLANG
 
   packs:
     - pack: ARM::CMSIS
@@ -17,7 +21,7 @@ solution:
 
   build-types:                                # defines toolchain options for 'debug' and 'release'
     - type: debug
-      optimize: none
+      optimize: debug
       debug: on
 
     - type: release

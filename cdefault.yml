@@ -28,6 +28,7 @@ default:
         - -std=gnu11
       Link:
         - --specs=nano.specs
+        - --specs=rdimon.specs
         - -Wl,-Map=$elf()$.map
         - -Wl,--gc-sections
         - -Wl,--no-warn-rwx-segments

@@ -23,7 +23,7 @@ jobs:
       matrix:
         compiler: [AC6, GCC, CLANG]
     
-    runs-on: ubuntu-latest    
+    runs-on: ubuntu-22.04    
 
     steps:
       - name: Checkout

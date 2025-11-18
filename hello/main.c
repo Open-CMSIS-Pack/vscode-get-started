@@ -26,6 +26,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// Create thread attribute to show thread name in the XRTOS viewer:
+const osThreadAttr_t app_main_attr = {.name = "MainThread"};
+
 /*---------------------------------------------------------------------------
  * Application main thread
  *---------------------------------------------------------------------------*/
@@ -45,7 +48,7 @@ static void app_main (void *argument) {
  * Application initialization
  *---------------------------------------------------------------------------*/
 static void app_initialize (void) {
-  osThreadNew(app_main, NULL, NULL);
+  osThreadNew(app_main, NULL, &app_main_attr);
 }
 
 /*---------------------------------------------------------------------------

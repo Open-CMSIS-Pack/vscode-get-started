@@ -1,25 +1,44 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/schemas/projmgr/2.2.1/tools/projmgr/schemas/csolution.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/schemas/projmgr/2.12.0/tools/projmgr/schemas/csolution.schema.json
 
 solution:
-  created-for: cmsis-toolbox@2.6.0
+  description: Get Started with VS Code extensions
+  created-for: CMSIS-Toolbox@2.12.0
   cdefault:
 
   select-compiler:
     - compiler: GCC
     - compiler: AC6
     - compiler: CLANG
+  compiler: AC6
 
   packs:
     - pack: ARM::CMSIS
     - pack: ARM::Cortex_DFP
     - pack: ARM::CMSIS-RTX
+    - pack: ARM::V2M_MPS3_SSE_300_BSP
+
+  misc:
+    - for-compiler: AC6
+      C-CPP:
+        - -gdwarf-5
+      ASM:
+        - -gdwarf-5
 
   target-types:
-    - type: avh                               # runs on Arm Virtual Hardware
-      device: ARMCM3
-                                              # add more hardware targets (don't forget to add the required packs)
+    - type: Corstone-300-FVP # runs on Arm FVP models
+      device: ARM::SSE-300-MPS3 # add more hardware targets (don't forget to add the required packs)
+      target-set:
+        - set:
+          images:
+            - project-context: hello.debug
+          debugger:
+            name: Arm-FVP
+            model: FVP_Corstone_SSE-300
+            config-file: fvp-config.txt
+            args: --simlimit 60
 
-  build-types:                                # defines toolchain options for 'debug' and 'release'
+  build-types:
+    # defines toolchain options for 'debug' and 'release'
     - type: debug
       optimize: debug
       debug: on
@@ -28,5 +47,6 @@ solution:
       optimize: balanced
       debug: off
 
-  projects:                                    # list related projects
+  projects:
+    # list related projects
     - project: ./hello/hello.cproject.yml

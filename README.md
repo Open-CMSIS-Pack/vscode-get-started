@@ -27,10 +27,11 @@ This allows you to run tools from the [CMSIS-Toolbox](https://github.com/Open-CM
 
 ## Additional Tools
 
-- Other Arm Tools available via [vcpkg](https://www.keil.arm.com/packages/) e.g.:
-  - Models: [Arm Virtual Hardware for Cortex-M based on FastModels](https://www.keil.arm.com/packages/#models/arm/avh-fvp)
-  - Toolchain: [Arm Compiler for Embedded](https://www.keil.arm.com/packages/#compilers/arm/armclang)
-  - Debugger: [Arm Debugger](https://www.keil.arm.com/artifacts/#debuggers/arm/armdbg)
+Other Arm Tools are available via [vcpkg](https://www.keil.arm.com/packages/) e.g.:
+
+- Models: [Arm Virtual Hardware for Cortex-M based on FastModels](https://www.keil.arm.com/packages/#models/arm/avh-fvp)
+- Toolchain: [Arm Compiler for Embedded](https://www.keil.arm.com/packages/#compilers/arm/armclang)
+- Debugger: [Arm Debugger](https://www.keil.arm.com/artifacts/#debuggers/arm/armdbg)
 
 ## Project Structure
 
@@ -47,40 +48,38 @@ Use the `cbuild` command from CMSIS-Toolbox to generate and build one or all con
 
 - find out which `contexts` are specified by the solution:
 
-  ```bash
-  cbuild list contexts get_started.csolution.yml
-  hello.debug+avh
-  hello.release+avh
-  ```
+```bash
+cbuild list contexts get_started.csolution.yml
+hello.debug+avh
+hello.release+avh
+```
 
 - build the context `hello.debug+avh` and install the required CMSIS Packs if not installed:
 
-  ```bash
-  cbuild get_started.csolution.yml --packs --update-rte --context hello.debug+avh
-  info cbuild: Build Invocation 2.2.1 (C) 2023 Arm Ltd. and Contributors
-  /tmp/vscode-get-started/get_started.cbuild-idx.yml - info csolution: file generated successfully
-  /tmp/vscode-get-started/hello/hello.debug+avh.cbuild.yml - info csolution: file generated successfully
-  /tmp/vscode-get-started/get_started.cbuild-pack.yml - info csolution: file is already up-to-date
-  /tmp/vscode-get-started/hello/hello.debug+avh.cprj - info csolution: file generated successfully
-  info cbuild: Processing 1 context(s)
-  info cbuild: Retrieve build information for context: "hello.debug+avh"
-  ======================================================
-  info cbuild: (1/1) Building context: "hello.debug+avh"
-
-  M650: Command completed successfully.
-
-  M652: Generated file for project build: '/tmp/vscode-get-started/tmp/hello/avh/debug/CMakeLists.txt'
-  :
-  info cbuild: build finished successfully!
-  ```
+```bash
+cbuild get_started.csolution.yml --packs --update-rte --context hello.debug+avh
+info cbuild: Build Invocation 2.2.1 (C) 2023 Arm Ltd. and Contributors
+/tmp/vscode-get-started/get_started.cbuild-idx.yml - info csolution: file generated successfully
+/tmp/vscode-get-started/hello/hello.debug+avh.cbuild.yml - info csolution: file generated successfully
+/tmp/vscode-get-started/get_started.cbuild-pack.yml - info csolution: file is already up-to-date
+/tmp/vscode-get-started/hello/hello.debug+avh.cprj - info csolution: file generated successfully
+info cbuild: Processing 1 context(s)
+info cbuild: Retrieve build information for context: "hello.debug+avh"
+======================================================
+info cbuild: (1/1) Building context: "hello.debug+avh"
+M650: Command completed successfully.
+M652: Generated file for project build: '/tmp/vscode-get-started/tmp/hello/avh/debug/CMakeLists.txt'
+:
+info cbuild: build finished successfully!
+```
 
 - build the configuration `.debug+avh` using Arm Compiler 6 (AC6)
   Add the Arm Compiler for Embedded 6 e.g. via vcpkg (`vcpkg use armclang`) and rebuild the context specifying
   `--rebuild` and the required compiler `--toolchain AC6`:
 
-  ```bash
-  cbuild get_started.csolution.yml --context .debug+avh --packs --update-rte --rebuild --toolchain AC6
-  ```
+```bash
+cbuild get_started.csolution.yml --context .debug+avh --packs --update-rte --rebuild --toolchain AC6
+```
 
 ## Execute Project
 

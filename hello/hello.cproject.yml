@@ -1,6 +1,11 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/schemas/projmgr/2.0.0-dev1/tools/projmgr/schemas/cproject.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Open-CMSIS-Pack/devtools/schemas/projmgr/2.12.0/tools/projmgr/schemas/cproject.schema.json
 
 project:
+
+# Project define
+  define:
+    - OS_IDLE_THREAD_NAME: \"Idle\"
+    - OS_TIMER_THREAD_NAME: \"Timer\"
 
   components:
     - component: CMSIS:CORE                             # short form, vendor selected from available packs

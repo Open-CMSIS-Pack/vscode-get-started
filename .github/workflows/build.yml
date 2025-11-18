@@ -49,7 +49,7 @@ jobs:
       - name: Build
         run: |
           echo "Building get started example ..."
-          cbuild get_started.csolution.yml --packs --update-rte --context .debug+avh --toolchain ${{ matrix.compiler }}
+          cbuild get_started.csolution.yml --packs --update-rte --active Corstone-300-FVP --toolchain ${{ matrix.compiler }}
 
       - name: Execute
         run: |
@@ -60,7 +60,7 @@ jobs:
             GCC) ext="elf";;
             CLANG) ext="elf" ;;
           esac
-          FVP_MPS2_Cortex-M3 --simlimit 10 -f fvp-config.txt -a out/hello/avh/debug/hello.${ext} | tee model.log
+          FVP_Corstone_SSE-300 --simlimit 10 -f fvp-config.txt -a out/hello/avh/debug/hello.${ext} | tee model.log
           echo "Checking output..."
           grep "Hello World" model.log | wc -l
           test "$(grep "Hello World" model.log | wc -l)" -eq 10

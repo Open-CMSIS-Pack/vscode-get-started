@@ -1,95 +1,120 @@
-# Visual Studio Code get started solution
+# Get started with Visual Studio Code
 
-This repository builds an ELF file that prints "GetStarted World" and a counter value via semihosting output on an Arm Virtual Hardware model (Cortex-M3).
+This repository contains an application that runs in simulation on an Arm Fixed Virtual Platform (Arm FVP) model. The
+application prints "Hello World" and a counter value in the Terminal output window using semihosting.
 
-## How to setup your CMSIS Csolution CLI Environment
+## Quick start
 
-Refer to the [installation guide of CMSIS-Toolbox](https://github.com/Open-CMSIS-Pack/cmsis-toolbox/blob/main/docs/installation.md#vcpkg---setup-using-cli).
+1. Install [Keil Studio for VS Code](https://marketplace.visualstudio.com/items?itemName=Arm.keil-studio-pack) from the
+   VS Code marketplace.
+2. Clone this Git repository into a VS Code workspace.
+3. The related tools and software packs are downloaded and installed. Review progress with
+   *View - Output - CMSIS Solution*.
+4. In the **CMSIS** view, use the
+   [Action buttons](https://github.com/ARM-software/vscode-cmsis-csolution?tab=readme-ov-file#action-buttons) to build
+   and run the example in simulation.
 
-## How to setup your CMSIS Csolution Development Environment
+> [!NOTE]
+> Other Arm Tools will be installed via [vcpkg](https://www.keil.arm.com/packages/). These are:
+> - Models: [Arm Virtual Hardware for Cortex-M based on FastModels](https://www.keil.arm.com/packages/#models/arm/avh-fvp)
+> - Toolchain: [Arm Compiler for Embedded](https://www.keil.arm.com/packages/#compilers/arm/armclang)
+> - Debugger: [Arm Debugger](https://www.keil.arm.com/artifacts/#debuggers/arm/armdbg)
 
-1. Download & Install [Microsoft Visual Studio Code](https://code.visualstudio.com/download) for your operating system.
-2. Launch Visual Studio Code. From the 'View' menu open 'Extensions' (ctrl+shift+x). Search for "Keil Studio Pack" and select the install button.
-3. From the 'View' menu open 'Source Control'. Select 'Clone Repository' and copy the url: https://github.com/Open-CMSIS-Pack/vscode-get-started into the input dialog
-4. Specify the destination folder to clone to and select 'Open' when asked 'Would you like to open the cloned directory?'
-5. Open the 'Explorer' view (ctrl-shift-e) and select the file 'vcpkg-configuration.json'. This file instructs [Microsoft vcpkg](https://github.com/microsoft/vcpkg-tool#vcpkg-artifacts) to install the prerequisite artifacts required for building the solution and puts it into the PATH: cmake, ninja, cmsis-toolbox as well as arm-none-eabi-gcc.
-6. Open the 'CMSIS' view from the side bar and press the 'Build' button. The last line of the ninja build output will tell you where you can
-find the application elf file. Alternatively you can select 'Build' or 'Rebuild' from the context menu of the `*.csolution.yml` file of the solution context
-(e.g. get_started.csolution.yml) to build all contexts of the solution.
+## Project structure
 
-Note: Any terminal that is opened within VSCode after vcpkg got activated for the folder, will have all the above tools added to the path.
-This allows you to run tools from the [CMSIS-Toolbox](https://github.com/Open-CMSIS-Pack/cmsis-toolbox/blob/main/docs/build-tools.md) like:
+The project is written in
+[`CSolution Project Format`](https://open-cmsis-pack.github.io/cmsis-toolbox/YML-Input-Format/):
 
-- [`cpackget`](https://github.com/Open-CMSIS-Pack/cmsis-toolbox/blob/main/docs/build-tools.md#cpackget-invocation) for installing and uninstalling CMSIS-Packs
-- [`csolution`](https://github.com/Open-CMSIS-Pack/cmsis-toolbox/blob/main/docs/build-tools.md#csolution-invocation) for updating, validating and converting from the CMSIS Project Management [YML input format](https://github.com/Open-CMSIS-Pack/devtools/blob/main/tools/projmgr/docs/Manual/YML-Input-Format.md#yaml-input-format)
-  to the CMSIS Build [XML `cprj` format](https://open-cmsis-pack.github.io/devtools/buildmgr/latest/element_cprj.html) used by `cbuildgen`.
-- [`cbuild`](https://github.com/Open-CMSIS-Pack/cmsis-toolbox/blob/main/docs/build-tools.md#cbuild-invocation) for an orchestrated build of one or more `configurations` of a csolution.
+- The [`get_started.csolution.yml`](./get_started.csolution.yml) file lists and defines the required packs, target and
+  build types, as welll as projects.
+- The [`hello/hello.cproject.yml`](./hello/hello.cproject.yml) file defines components and source files.
+- The [`vcpkg-configuration.json`](./vcpkg-configuration.json) file orchestrates the installation of all required tools
+  locally or [in the cloud](#run-in-github-codespaces).
 
-## Additional Tools
+## Build the solution
 
-- Other Arm Tools available via [vcpkg](https://www.keil.arm.com/packages/) e.g.:
-  - Models: [Arm Virtual Hardware for Cortex-M based on FastModels](https://www.keil.arm.com/packages/#models/arm/avh-fvp)
-  - Toolchain: [Arm Compiler for Embedded](https://www.keil.arm.com/packages/#compilers/arm/armclang)
-  - Debugger: [Arm Debugger](https://www.keil.arm.com/artifacts/#debuggers/arm/armdbg)
+In the **CMSIS** view, use the build button (hammer icon) to build the solution. In the background,
+[`cbuild`](https://open-cmsis-pack.github.io/cmsis-toolbox/build-tools/#cbuild-invocation) will be run:
 
-## Project Structure
-
-The project is written in the [`CMSIS-Toolbox Project Format`](https://github.com/Open-CMSIS-Pack/cmsis-toolbox/blob/main/docs/YML-Input-Format.md):
-
-- [`cdefault.yml`] is located in the ./etc directory of the CMSIS-Toolbox. It sets the default toolchain specific command line options for supported toolchains.
-  In case a solution specific version is required, you can copy the file locally and it will be used by the tools instead.
-- [`get_started.csolution.yml`](./get_started.csolution.yml) lists and defines the required packs, hardware targets, build-types and projects.
-- [`hello/hello.cproject.yml`](./hello/hello.cproject.yml) defines components and source files.
-
-## Build Solution/Project
-
-Use the `cbuild` command from CMSIS-Toolbox to generate and build one or all configurations of the solution:
-
-- find out which `contexts` are specified by the solution:
-
-  ```bash
-  cbuild list contexts get_started.csolution.yml
-  hello.debug+avh
-  hello.release+avh
-  ```
-
-- build the context `hello.debug+avh` and install the required CMSIS Packs if not installed:
-
-  ```bash
-  cbuild get_started.csolution.yml --packs --update-rte --context hello.debug+avh
-  info cbuild: Build Invocation 2.2.1 (C) 2023 Arm Ltd. and Contributors
-  /tmp/vscode-get-started/get_started.cbuild-idx.yml - info csolution: file generated successfully
-  /tmp/vscode-get-started/hello/hello.debug+avh.cbuild.yml - info csolution: file generated successfully
-  /tmp/vscode-get-started/get_started.cbuild-pack.yml - info csolution: file is already up-to-date
-  /tmp/vscode-get-started/hello/hello.debug+avh.cprj - info csolution: file generated successfully
-  info cbuild: Processing 1 context(s)
-  info cbuild: Retrieve build information for context: "hello.debug+avh"
-  ======================================================
-  info cbuild: (1/1) Building context: "hello.debug+avh"
-
-  M650: Command completed successfully.
-
-  M652: Generated file for project build: '/tmp/vscode-get-started/tmp/hello/avh/debug/CMakeLists.txt'
-  :
-  info cbuild: build finished successfully!
-  ```
-
-- build the configuration `.debug+avh` using Arm Compiler 6 (AC6)
-  Add the Arm Compiler for Embedded 6 e.g. via vcpkg (`vcpkg use armclang`) and rebuild the context specifying
-  `--rebuild` and the required compiler `--toolchain AC6`:
-
-  ```bash
-  cbuild get_started.csolution.yml --context .debug+avh --packs --update-rte --rebuild --toolchain AC6
-  ```
-
-## Execute Project
-
-The project is configured for execution on Arm Virtual Hardware (AVH) modelling an MPS2 board running an Arm Cortex-M3 processor.
-This model is part of the MDK Professional Edition and removes the requirement for a physical hardware board. It *DOES NOT WORK* with the 
-MDK Community Edition.
-
-Note: depending on the toolchain used the extension of the application file is either `elf` (GCC, Clang) or `axf` (AC6):
-
-```bash
-FVP_MPS2_Cortex-M3 -f fvp-config.txt -a out/hello/avh/debug/hello.axf
+```txt
+Execute: cbuild /Users/user/vscode-get-started/get_started.csolution.yml --rebuild --active Corstone-300-FVP --packs
++-----------------------------------------------------
+(1/1) Cleaning context: "hello.debug+Corstone-300-FVP"
++-----------------------------------------------------
+(1/1) Building context: "hello.debug+Corstone-300-FVP"
+Using AC6 V6.24.0 compiler, from: '/Users/user/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/'
+Building CMake target 'hello.debug+Corstone-300-FVP'
+[1/20] Building C object CMakeFiles/Group_Source.dir/Users/user/vscode-get-started/hello/main.o
+[2/20] Building C object CMakeFiles/ARM_CMSIS_OS_Tick_SysTick_1_0_5.dir/Users/user/.cache/arm/packs/ARM/CMSIS/6.1.0/CMSIS/RTOS2/Source/os_systick.o
+[3/20] Building C object CMakeFiles/ARM_CMSIS_RTOS2_Keil_RTX5_Source_5_9_0.dir/Users/user/.cache/arm/packs/ARM/CMSIS-RTX/5.9.0/Source/rtx_memory.o
+[4/20] Building C object CMakeFiles/ARM_CMSIS_RTOS2_Keil_RTX5_Source_5_9_0.dir/Users/user/.cache/arm/packs/ARM/CMSIS-RTX/5.9.0/Source/rtx_delay.o
+[5/20] Building C object CMakeFiles/ARM_CMSIS_RTOS2_Keil_RTX5_Source_5_9_0.dir/Users/user/.cache/arm/packs/ARM/CMSIS-RTX/5.9.0/Source/rtx_lib.o
+[6/20] Building C object CMakeFiles/ARM_CMSIS_RTOS2_Keil_RTX5_Source_5_9_0.dir/Users/user/.cache/arm/packs/ARM/CMSIS-RTX/5.9.0/Source/rtx_evr.o
+[7/20] Building C object CMakeFiles/ARM_CMSIS_RTOS2_Keil_RTX5_Source_5_9_0.dir/Users/user/.cache/arm/packs/ARM/CMSIS-RTX/5.9.0/Source/rtx_kernel.o
+[8/20] Building ASM object CMakeFiles/ARM_CMSIS_RTOS2_Keil_RTX5_Source_5_9_0.dir/Users/user/.cache/arm/packs/ARM/CMSIS-RTX/5.9.0/Source/GCC/irq_armv8mml.o
+[9/20] Building C object CMakeFiles/ARM_CMSIS_RTOS2_Keil_RTX5_Source_5_9_0.dir/Users/user/.cache/arm/packs/ARM/CMSIS-RTX/5.9.0/Source/rtx_evflags.o
+[10/20] Building C object CMakeFiles/ARM_CMSIS_RTOS2_Keil_RTX5_Source_5_9_0.dir/Users/user/.cache/arm/packs/ARM/CMSIS-RTX/5.9.0/Source/rtx_mempool.o
+[11/20] Building C object CMakeFiles/ARM_CMSIS_RTOS2_Keil_RTX5_Source_5_9_0.dir/Users/user/.cache/arm/packs/ARM/CMSIS-RTX/5.9.0/Source/rtx_mutex.o
+[12/20] Building C object CMakeFiles/ARM_CMSIS_RTOS2_Keil_RTX5_Source_5_9_0.dir/Users/user/.cache/arm/packs/ARM/CMSIS-RTX/5.9.0/Source/rtx_msgqueue.o
+[13/20] Building C object CMakeFiles/ARM_CMSIS_RTOS2_Keil_RTX5_Source_5_9_0.dir/Users/user/vscode-get-started/hello/RTE/CMSIS/RTX_Config.o
+[14/20] Building C object CMakeFiles/ARM_CMSIS_RTOS2_Keil_RTX5_Source_5_9_0.dir/Users/user/.cache/arm/packs/ARM/CMSIS-RTX/5.9.0/Source/rtx_semaphore.o
+[15/20] Building C object CMakeFiles/ARM_CMSIS_RTOS2_Keil_RTX5_Source_5_9_0.dir/Users/user/.cache/arm/packs/ARM/CMSIS-RTX/5.9.0/Source/rtx_system.o
+[16/20] Building C object CMakeFiles/ARM_Device_Startup_C_Startup_2_0_0.dir/Users/user/vscode-get-started/hello/RTE/Device/SSE-300-MPS3/system_SSE300MPS3.o
+[17/20] Building C object CMakeFiles/ARM_Device_Startup_C_Startup_2_0_0.dir/Users/user/vscode-get-started/hello/RTE/Device/SSE-300-MPS3/startup_SSE300MPS3.o
+[18/20] Building C object CMakeFiles/ARM_CMSIS_RTOS2_Keil_RTX5_Source_5_9_0.dir/Users/user/.cache/arm/packs/ARM/CMSIS-RTX/5.9.0/Source/rtx_timer.o
+[19/20] Building C object CMakeFiles/ARM_CMSIS_RTOS2_Keil_RTX5_Source_5_9_0.dir/Users/user/.cache/arm/packs/ARM/CMSIS-RTX/5.9.0/Source/rtx_thread.o
+[20/20] Linking C executable /Users/user/vscode-get-started/out/hello/Corstone-300-FVP/debug/hello.axf
+Program Size: Code=14030 RO-data=974 RW-data=188 ZI-data=29312  
++------------------------------------------------------------
+Build summary: 1 succeeded, 0 failed - Time Elapsed: 00:00:02
++============================================================
+Completed: cbuild succeed with exit code 0
+Build complete
 ```
+
+## Run in simulation
+
+The project is configured for execution on the Corstone-300 Arm FVP running an Arm Cortex-M55 processor.
+This model is available free-of-charge and removes the requirement for a physical hardware board. It can be used with
+the [MDK-Community](https://keil.arm.com/mdk-community) edition.
+
+In the **CMSIS** view, press the **Load & Run application** button (the play icon). In the background,
+the following will be run:
+
+```txt
+ *  Executing task: FVP_Corstone_SSE-300 -f fvp-config.txt --simlimit 60 -a out/hello/Corstone-300-FVP/debug/hello.axf  
+
+Info: FVP_MPS3_Corstone_SSE_300: telnetterminal0: Listening for serial connection on port 5000
+Info: FVP_MPS3_Corstone_SSE_300: telnetterminal1: Listening for serial connection on port 5001
+Info: FVP_MPS3_Corstone_SSE_300: telnetterminal2: Listening for serial connection on port 5002
+Info: FVP_MPS3_Corstone_SSE_300: telnetterminal5: Listening for serial connection on port 5003
+
+Hello World 0
+Hello World 1
+Hello World 2
+Hello World 3
+Hello World 4
+Hello World 5
+Hello World 6
+Hello World 7
+Hello World 8
+Hello World 9
+Hello World 10
+Hello World 11
+...
+
+Info: Simulation is stopping. Reason: Simulated time has been exceeded.
+
+Info: /OSCI/SystemC: Simulation stopped by user.
+```
+
+## Run in GitHub Codespaces
+
+This repository is prepared to run in [GitHub Codespaces](https://github.com/features/codespaces), your development
+environment in the cloud. This eliminated the necessity to install any tools on your local machine.
+
+To start your Codespace through your browser, click on `<> Code`, switch to the **Codespaces** tab and select
+**Create Codespace on main**. A new window opens and your environment will be set up. Allow a couple of minutes to
+finish. If you reopen the Codespace later, it will be much faster.
+
+Use the Codespace in the same way as you have done in the [Quick Start](#quick-start) chapter.

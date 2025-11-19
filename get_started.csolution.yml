@@ -6,9 +6,9 @@ solution:
   cdefault:
 
   select-compiler:
-    - compiler: GCC
+#    - compiler: GCC
     - compiler: AC6
-    - compiler: CLANG
+#    - compiler: CLANG
   compiler: AC6
 
   packs:

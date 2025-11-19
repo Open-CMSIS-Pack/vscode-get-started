@@ -21,3 +21,9 @@ project:
     - group: Source
       files:
         - file: ./main.c
+
+  output:
+    type:
+    - elf
+    - hex
+    - map

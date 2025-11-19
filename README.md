@@ -31,6 +31,20 @@ The project is written in
 - The [`vcpkg-configuration.json`](./vcpkg-configuration.json) file orchestrates the installation of all required tools
   locally or [in the cloud](#run-in-github-codespaces).
 
+### Toolchain settings
+
+The example is using the
+[Arm Compiler for Embedded](https://developer.arm.com/dev2/Tools%20and%20Software/Arm%20Compiler%20for%20Embedded) as
+the build toolchain. It is prepared to run on the
+[Arm GNU Toolchain](https://developer.arm.com/dev2/Tools%20and%20Software/GNU%20Toolchain) and the
+[Arm Toolchain for Embedded](https://developer.arm.com/dev2/Tools%20and%20Software/Arm%20Toolchain%20for%20Embedded) as
+well. If you want to use one of these, do the following:
+
+- Uncomment the `-compiler:` setting in the `get_started.csolution.yml` file.
+- Add the compiler in the `vcpkg-configuration.json` file.
+- Select the compiler once prompted.
+- *Optional*: add the new compiler to the [build.yml](.github/workflows/build.yml) file to run automated tests.
+
 ## Build the solution
 
 In the **CMSIS** view, use the build button (hammer icon) to build the solution. In the background,

@@ -2,9 +2,7 @@
     "customizations": {
         "vscode": {
            "extensions": [
-                "redhat.vscode-yaml",
-                "arm.keil-studio-pack",
-                "arm.vscode-cmsis-debugger"
+                "arm.keil-studio-pack"
             ]
         }
     }   

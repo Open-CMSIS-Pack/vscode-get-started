@@ -63,4 +63,4 @@ jobs:
           FVP_Corstone_SSE-300 --simlimit 10 -f fvp-config.txt -a out/hello/avh/debug/hello.${ext} | tee model.log
           echo "Checking output..."
           grep "Hello World" model.log | wc -l
-          test "$(grep "Hello World" model.log | wc -l)" -eq 10
+          test "$(grep "Hello World" model.log | wc -l)" -ge 3

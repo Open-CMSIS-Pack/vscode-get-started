@@ -6,10 +6,9 @@ solution:
   cdefault:
 
   select-compiler:
-#    - compiler: GCC
+    - compiler: GCC
     - compiler: AC6
-#    - compiler: CLANG
-  compiler: AC6
+    - compiler: CLANG
 
   packs:
     - pack: ARM::CMSIS
@@ -50,3 +49,4 @@ solution:
   projects:
     # list related projects
     - project: ./hello/hello.cproject.yml
+  compiler: AC6

@@ -21,8 +21,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        compiler: [AC6]
-#        compiler: [AC6, GCC, CLANG]
+        compiler: [AC6, GCC, CLANG]
     runs-on: ubuntu-22.04
 
     steps:
@@ -41,6 +40,8 @@ jobs:
 
       - name: Activate vcpkg
         uses: ARM-software/cmsis-actions/vcpkg@v1
+        with:
+          config: "./vcpkg-configuration-workflow.json"
 
       - name: Activate Arm tool license
         uses: ARM-software/cmsis-actions/armlm@v1

@@ -40,10 +40,8 @@ the build toolchain. It is prepared to run on the
 [Arm Toolchain for Embedded](https://developer.arm.com/dev2/Tools%20and%20Software/Arm%20Toolchain%20for%20Embedded) as
 well. If you want to use one of these, do the following:
 
-- Uncomment the `-compiler:` setting in the `get_started.csolution.yml` file.
 - Add the compiler in the `vcpkg-configuration.json` file.
-- Select the compiler once prompted.
-- *Optional*: add the new compiler to the [build.yml](.github/workflows/build.yml) file to run automated tests.
+- Change the `compiler:` setting at the end of the `get_started.csolution.yml` file.
 
 ## Build the solution
 

@@ -1,3 +1,6 @@
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-green?label=Licence)](https://github.com/Open-CMSIS-Pack/vscode-get-started/blob/main/LICENSE)
+[![Build Example](https://img.shields.io/github/actions/workflow/status/Open-CMSIS-Pack/vscode-get-started/build.yml?logo=arm&logoColor=0091bd&label=Build%20Example)](https://github.com/Open-CMSIS-Pack/vscode-get-started/tree/main/.github/workflows/build.yml)
+
 # Get started with Visual Studio Code
 
 This repository contains an application that runs in simulation on an Arm Fixed Virtual Platform (Arm FVP) model. The

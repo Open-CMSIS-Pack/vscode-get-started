@@ -22,7 +22,7 @@ jobs:
       fail-fast: true
       matrix:
         compiler: [AC6, GCC, CLANG]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout
@@ -60,7 +60,7 @@ jobs:
           case "${{ matrix.compiler }}" in
             AC6) ext="axf" ;;
             GCC) ext="elf";;
-            CLANG) ext="elf" ;;
+            CLANG) ext="elf";;
           esac
           FVP_Corstone_SSE-300 --simlimit 10 -f fvp-config.txt -a out/hello/Corstone-300-FVP/debug/hello.${ext} | tee model.log
           echo "Checking output..."
